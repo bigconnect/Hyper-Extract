@@ -1,6 +1,6 @@
 # Provider Configuration Guide
 
-Configure Hyper-Extract to work with OpenAI, Bailian (Alibaba Cloud), DeepSeek, OrcaRouter, Atlas Cloud, Cheaper Inference, or local vLLM deployments.
+Configure Hyper-Extract to work with OpenAI, Bailian (Alibaba Cloud), DeepSeek, OrcaRouter, Atlas Cloud, Runcrate, Cheaper Inference, or local vLLM deployments.
 
 ---
 
@@ -78,7 +78,21 @@ llm, emb = create_client(
     embedder="openai:text-embedding-3-small",
 )
 # Or override the model: create_client(llm="atlascloud:moonshotai/kimi-k3", ...)
-# Avoid glm-5.x here: it rejects the forced tool_choice that extraction uses.
+```
+
+### Runcrate
+
+```python
+from hyperextract import create_client
+
+# Runcrate is an OpenAI-compatible API for open models with vendor-prefixed ids.
+# It also serves embeddings, so one key covers the LLM and the embedder.
+# Key: RUNCRATE_API_KEY.
+llm, emb = create_client(
+    llm="runcrate",  # default model: deepseek-ai/DeepSeek-V4.1-Flash
+    embedder="runcrate",  # default embedder: BAAI/bge-m3
+)
+# Or override the model: create_client(llm="runcrate:openai/gpt-oss-120b", ...)
 ```
 
 ### Cheaper Inference
@@ -137,6 +151,7 @@ print(f"Nodes: {len(graph.nodes)}, Edges: {len(graph.edges)}")
 | **OrcaRouter** | `he config init -p orcarouter -k sk-orca-xxx` |
 | **Cheaper Inference** | `he config llm -p cheaperinference -m gpt-5.4-mini -k ci_live_xxx` + `he config embedder -p openai -k sk-xxx` |
 | **Atlas Cloud** | `he config llm -p atlascloud -k xxx` + `he config embedder -p openai -k sk-xxx` |
+| **Runcrate** | `he config init -p runcrate -k rc_live_xxx` |
 | **vLLM** | `he config init` → select "local vLLM" |
 | **Mixed** (LLM=Bailian, Embedder=vLLM) | `he config llm -p bailian -k sk-xxx` + `he config embedder -p vllm -u http://localhost:8001/v1 -k dummy` |
 

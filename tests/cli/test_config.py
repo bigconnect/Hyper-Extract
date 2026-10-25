@@ -380,3 +380,21 @@ def test_interactive_init_lists_atlascloud():
 
     assert '"atlascloud"' in inspect.getsource(init)
 
+
+def test_get_llm_and_embedder_config_read_runcrate_env_key(tmp_path, monkeypatch):
+    """Empty toml api_key must resolve RUNCRATE_API_KEY, ahead of OPENAI_API_KEY."""
+    monkeypatch.delenv("OPENAI_BASE_URL", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-openai-must-not-win")
+    monkeypatch.setenv("RUNCRATE_API_KEY", "rc-from-env")
+
+    cm = ConfigManager(tmp_path / "config.toml")
+    cm.set_llm(provider="runcrate", model="deepseek-ai/DeepSeek-V4.1-Flash", api_key="")
+    cm.set_embedder(provider="runcrate", model="BAAI/bge-m3", api_key="")
+
+    llm_cfg = cm.get_llm_config()
+    assert llm_cfg.api_key == "rc-from-env"
+    assert llm_cfg.base_url == "https://api.runcrate.ai/v1"
+    emb_cfg = cm.get_embedder_config()
+    assert emb_cfg.api_key == "rc-from-env"
+    assert emb_cfg.base_url == "https://api.runcrate.ai/v1"
+

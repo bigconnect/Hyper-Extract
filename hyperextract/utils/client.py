@@ -82,6 +82,14 @@ PROVIDER_PRESETS: dict[str, dict[str, str | None]] = {
         "default_llm": "deepseek-ai/deepseek-v4-flash",
         "default_embedder": None,
     },
+    # Runcrate. OpenAI-compatible API for open models under vendor-prefixed ids
+    # such as "deepseek-ai/DeepSeek-V4.1-Flash". It also serves embeddings, so
+    # one key covers both the LLM and the embedder ("BAAI/bge-m3", 1024 dims).
+    "runcrate": {
+        "base_url": "https://api.runcrate.ai/v1",
+        "default_llm": "deepseek-ai/DeepSeek-V4.1-Flash",
+        "default_embedder": "BAAI/bge-m3",
+    },
     # Anthropic (Claude). Uses the native ChatAnthropic client, so base_url is
     # left empty (the SDK targets api.anthropic.com by default). Anthropic has
     # no embeddings API, hence default_embedder is None — pair it with an
@@ -134,6 +142,7 @@ PROVIDER_API_KEY_ENV: dict[str, tuple[str, ...]] = {
     "orcarouter": ("ORCAROUTER_API_KEY",),
     "cheaperinference": ("CHEAPER_INFERENCE_API_KEY",),
     "atlascloud": ("ATLASCLOUD_API_KEY",),
+    "runcrate": ("RUNCRATE_API_KEY",),
 }
 
 
