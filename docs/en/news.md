@@ -4,6 +4,15 @@ Release notes and highlights. For a complete changelog, see the [GitHub releases
 
 ---
 
+## v0.11.0 — Preset Regression Fix, New Providers & Diagnostics
+
+- **🛠️ Critical fix for 0.10.5** — the load-time identifiers check validated `time_field`/`location_field` against the wrong output section, breaking `Template.create` for 7 shipped presets (`temporal_graph`, `spatial_graph`, `spatio_temporal_graph`, `biography_graph`, `event_timeline`, `case_fact_timeline`, `hospital_timeline`). Now validated against `relations.fields` per the presets and the validator's HE-T006 rule. *(#184)*
+- **🔌 New provider presets** — **API Route** (`API_ROUTE_API_KEY`) and **Runcrate** (open models + embeddings on one key, `RUNCRATE_API_KEY`), both OpenAI-compatible, with EN/ZH docs and tests. *(#190, #192)*
+- **🛡️ More load-time validation** — hypergraph `relation_members` in string/list form are now field-checked at `Template.create` (previously crashed at feed time with `AttributeError`). *(#185)*
+- **🧭 Better diagnostics** — a graph-family template carrying naive `item_id` identifiers fails with the validator's HE-T003 guidance instead of a bare `AttributeError`. *(#191)*
+
+---
+
 ## v0.10.5 — Load-Time Template Validation & Friendly Local-Model Errors
 
 - **🛡️ Load-time identifiers validation** — a template whose `node_id`/`relation_id`/`relation_members` reference fields not declared in `output` now fails at `Template.create` with `relation_id references '{type}' but relations.fields does not declare 'type'`, instead of crashing at first merge with an unrelated `max()` error. *(production feedback; requires ontomem ≥ 0.6.1)*

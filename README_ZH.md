@@ -354,7 +354,7 @@ identifiers:
 
 ## 📰 最新动态
 
-**v0.10.5** — 🛡️ 加载期模板校验（未声明字段在 create 阶段即报错）· 🧠 原生 Gemini · 🔒 ontomem 0.6.1 安全合并。
+**v0.11.0** — 🛠️ 0.10.5 关键预设修复（7 个时空类模板）· 🔌 新增 API Route 与 Runcrate provider · 🛡️ 超图成员字段加载期校验。
 
 📰 **[完整版本说明](https://yifanfeng97.github.io/Hyper-Extract/latest/zh/news/)** · [全部 Releases](https://github.com/yifanfeng97/hyper-extract/releases)
 

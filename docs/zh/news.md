@@ -4,6 +4,15 @@
 
 ---
 
+## v0.11.0 — 预设回归修复、新 Provider 与诊断改进
+
+- **🛠️ 0.10.5 关键修复** — 加载期 identifiers 校验把 `time_field`/`location_field` 对错了 output 段，导致 7 个已发布预设（`temporal_graph`、`spatial_graph`、`spatio_temporal_graph`、`biography_graph`、`event_timeline`、`case_fact_timeline`、`hospital_timeline`）无法创建。现按预设与校验器 HE-T006 规则对 `relations.fields` 校验。*(#184)*
+- **🔌 新 provider 预设** — **API Route**（`API_ROUTE_API_KEY`）与 **Runcrate**（开放模型 + 嵌入共用一个密钥 `RUNCRATE_API_KEY`），均 OpenAI 兼容，含中英文档与测试。*(#190, #192)*
+- **🛡️ 更多加载期校验** — 超图 `relation_members` 的字符串/列表形式现在也会在 `Template.create` 时做字段检查（此前在 feed 阶段才 AttributeError）。*(#185)*
+- **🧭 更好的诊断** — graph 族模板误用 naive `item_id` identifiers 时，报校验器 HE-T003 的指引信息而非裸 `AttributeError`。*(#191)*
+
+---
+
 ## v0.10.5 — 加载期模板校验与本地模型友好报错
 
 - **🛡️ 加载期 identifiers 校验** — 模板的 `node_id`/`relation_id`/`relation_members` 引用了 `output` 未声明字段时，`Template.create` 阶段即报 `relation_id references '{type}' but relations.fields does not declare 'type'`，而非首次合并时崩出无关的 `max()` 错误。*(生产反馈；需要 ontomem ≥ 0.6.1)*

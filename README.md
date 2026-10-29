@@ -354,7 +354,7 @@ identifiers:
 
 ## 📰 What's New
 
-**v0.10.5** — 🛡️ Load-time template validation (undeclared identifier fields fail at create, not at merge) · 🧠 Native Gemini · 🔒 ontomem 0.6.1 safe merging.
+**v0.11.0** — 🛠️ Critical 0.10.5 preset fix (7 temporal/spatial presets) · 🔌 New API Route & Runcrate providers · 🛡️ Hypergraph member-field load-time validation.
 
 📰 **[Full release notes](https://yifanfeng97.github.io/Hyper-Extract/latest/news/)** · [All releases](https://github.com/yifanfeng97/hyper-extract/releases)
 
