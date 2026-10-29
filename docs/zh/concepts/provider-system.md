@@ -11,6 +11,7 @@ Hyper-Extract 支持以下接入方式：**OpenAI**、**Anthropic**、**Google G
 | 平台 | 模型 | 函数调用 | 兼容性 | 备注 |
 |------|------|:--------:|:------:|------|
 | **OpenAI** | gpt-4o / gpt-4o-mini / gpt-5 | ✅ | ✅ | 官方原生支持，推荐 |
+| **API Route** | gpt-6.1-sol | ✅ | ✅ | OpenAI 兼容 LLM 预设，嵌入模型需单独配置。密钥：`API_ROUTE_API_KEY`。[配置指南](../python/guides/provider-configuration.md#api-route) |
 | **Anthropic** | claude-opus-4-8 / claude-sonnet-4-6 / claude-haiku-4-5 | ✅（工具调用） | ✅ | 仅 LLM——无嵌入接口（请搭配 OpenAI 兼容嵌入器）。需 `hyperextract[anthropic]` |
 | **Google Gemini** | gemini-3.8-flash / gemini-2.5-flash / gemini-2.5-pro | ✅（工具调用） | ✅ | 仅 LLM——本仓库无成熟嵌入路径（请搭配 OpenAI 兼容嵌入器）。需 `hyperextract[google]`。密钥：`GOOGLE_API_KEY` 或 `GEMINI_API_KEY`。别名：`gemini` |
 | **DeepSeek** | deepseek-v4-flash / deepseek-v4-pro | ✅ | ✅ | OpenAI 兼容。V4 模型默认开启"thinking"模式，Hyper-Extract 会自动关闭以保证结构化抽取可用。仅 LLM——无嵌入接口。密钥：`DEEPSEEK_API_KEY` |

@@ -81,6 +81,31 @@ llm, emb = create_client(
 # Avoid glm-5.x here: it rejects the forced tool_choice that extraction uses.
 ```
 
+### API Route
+
+Set `API_ROUTE_API_KEY` to a key from [API Route](https://www.api-route.com).
+The preset uses `https://global.api-route.com/v1` and defaults to `gpt-6.1-sol`.
+Configure an embedding provider separately:
+
+```python
+from hyperextract import create_client
+
+# Keys: API_ROUTE_API_KEY for the LLM, OPENAI_API_KEY for embeddings.
+llm, emb = create_client(
+    llm="api-route",  # override with "api-route:<model-id>"
+    embedder="openai:text-embedding-3-small",
+)
+```
+
+Use a model ID from the [model catalog](https://www.api-route.com/pricing) or
+the authenticated `GET https://global.api-route.com/v1/models` response.
+For CLI configuration:
+
+```bash
+he config llm -p api-route -m gpt-6.1-sol
+he config embedder -p openai -m text-embedding-3-small
+```
+
 ### Cheaper Inference
 
 ```python

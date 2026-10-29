@@ -8,6 +8,29 @@
 
 以下三个平台运行**相同的提取任务**，仅客户端配置（前 3 行）不同。
 
+### API Route
+
+从 [API Route](https://www.api-route.com) 获取密钥并设置环境变量 `API_ROUTE_API_KEY`。
+预设端点为 `https://global.api-route.com/v1`，默认模型为 `gpt-6.1-sol`，嵌入模型需单独配置：
+
+```python
+from hyperextract import create_client
+
+# LLM 使用 API_ROUTE_API_KEY，嵌入模型使用 OPENAI_API_KEY。
+llm, emb = create_client(
+    llm="api-route",  # 可用 "api-route:<模型 ID>" 指定其他模型
+    embedder="openai:text-embedding-3-small",
+)
+```
+
+可用模型以[模型目录](https://www.api-route.com/pricing)或携带密钥调用
+`GET https://global.api-route.com/v1/models` 的响应为准。CLI 配置示例：
+
+```bash
+he config llm -p api-route -m gpt-6.1-sol
+he config embedder -p openai -m text-embedding-3-small
+```
+
 ### OpenAI
 
 ```python

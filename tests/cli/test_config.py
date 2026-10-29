@@ -35,6 +35,20 @@ def test_save_creates_custom_parent_dir(tmp_path):
     assert reloaded.llm.model == "gpt-4o-mini"
 
 
+def test_api_route_config_round_trip_uses_provider_endpoint_and_key(tmp_path, monkeypatch):
+    monkeypatch.setenv("API_ROUTE_API_KEY", "route-test")
+    monkeypatch.setenv("OPENAI_API_KEY", "openai-test")
+    monkeypatch.delenv("OPENAI_BASE_URL", raising=False)
+    cfg_path = tmp_path / "config.toml"
+    ConfigManager(cfg_path).set_llm(provider="api-route", model="gpt-6.1-sol")
+
+    config = ConfigManager(cfg_path).get_llm_config()
+    assert config.provider == "api-route"
+    assert config.model == "gpt-6.1-sol"
+    assert config.base_url == "https://global.api-route.com/v1"
+    assert config.api_key == "route-test"
+
+
 @_POSIX_ONLY
 def test_save_sets_owner_only_permissions(tmp_path):
     cfg_path = tmp_path / "config.toml"

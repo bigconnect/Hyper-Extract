@@ -71,6 +71,11 @@ PROVIDER_PRESETS: dict[str, dict[str, str | None]] = {
         "default_llm": "gpt-5.4-mini",
         "default_embedder": None,
     },
+    "api-route": {
+        "base_url": "https://global.api-route.com/v1",
+        "default_llm": "gpt-6.1-sol",
+        "default_embedder": None,
+    },
     # Atlas Cloud. OpenAI-compatible aggregator serving DeepSeek, Z.ai, Moonshot,
     # Qwen, MiniMax, OpenAI, Anthropic and Google models under vendor-prefixed
     # ids such as "deepseek-ai/deepseek-v4-flash". Forced tool_choice (which
@@ -133,6 +138,7 @@ PROVIDER_API_KEY_ENV: dict[str, tuple[str, ...]] = {
     "deepseek": ("DEEPSEEK_API_KEY",),
     "orcarouter": ("ORCAROUTER_API_KEY",),
     "cheaperinference": ("CHEAPER_INFERENCE_API_KEY",),
+    "api-route": ("API_ROUTE_API_KEY",),
     "atlascloud": ("ATLASCLOUD_API_KEY",),
 }
 
