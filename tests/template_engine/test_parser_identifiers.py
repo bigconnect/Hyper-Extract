@@ -227,3 +227,30 @@ class TestValidateIdentifiersFields:
                 "temporal_graph",
                 self._declared(["name"], ["source", "target"]),
             )
+
+
+class TestGraphTemplateWithNaiveIdentifiers:
+    """A graph-family template carrying item_id must fail with a diagnosis."""
+
+    def test_naive_identifiers_rejected_with_guidance(self):
+        from hyperextract.utils.template_engine.parsers.schemas import (
+            NaiveIdentifierSchema,
+        )
+
+        with pytest.raises(ValueError, match="not item_id"):
+            validate_identifiers_fields(
+                NaiveIdentifierSchema(item_id="name"),
+                "graph",
+                {"entities": {"name"}, "relations": {"source", "target"}},
+            )
+
+    def test_graph_identifiers_still_accepted(self):
+        validate_identifiers_fields(
+            GraphIdentifiersSchema(
+                entity_id="name",
+                relation_id="{source}|{target}",
+                relation_members={"source": "source", "target": "target"},
+            ),
+            "graph",
+            {"entities": {"name"}, "relations": {"source", "target"}},
+        )

@@ -121,6 +121,14 @@ def validate_identifiers_fields(
     ):
         return
 
+    if not isinstance(identifiers, GraphIdentifiersSchema):
+        # Same diagnosis as the validator's HE-T003; without this the graph
+        # field checks below raise AttributeError on item_id-only identifiers.
+        raise ValueError(
+            f"{autotype} templates require identifiers.entity_id, "
+            "relation_id, and relation_members (not item_id)"
+        )
+
     entity_fields = declared_fields.get("entities", set())
     relation_fields = declared_fields.get("relations", set())
 
