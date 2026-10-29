@@ -159,6 +159,25 @@ class TestCreateLLM:
         llm = create_llm("atlascloud")
         assert llm.openai_api_key.get_secret_value() == "apikey-from-env"
 
+    def test_create_llm_runcrate(self):
+        """Create LLM with runcrate preset (OpenAI-compatible API)."""
+        llm = create_llm("runcrate", api_key="rc-test")
+        assert llm.model_name == "deepseek-ai/DeepSeek-V4.1-Flash"
+        assert llm.openai_api_base == "https://api.runcrate.ai/v1"
+
+    def test_create_llm_runcrate_model_override(self):
+        """A vendor-prefixed Runcrate model id after the colon is kept whole."""
+        llm = create_llm("runcrate:openai/gpt-oss-120b", api_key="rc-test")
+        assert llm.model_name == "openai/gpt-oss-120b"
+        assert llm.openai_api_base == "https://api.runcrate.ai/v1"
+
+    def test_create_llm_runcrate_env_key(self, monkeypatch):
+        """Runcrate key is read from RUNCRATE_API_KEY, ahead of OPENAI_API_KEY."""
+        monkeypatch.setenv("OPENAI_API_KEY", "sk-openai-test")
+        monkeypatch.setenv("RUNCRATE_API_KEY", "rc-from-env")
+        llm = create_llm("runcrate")
+        assert llm.openai_api_key.get_secret_value() == "rc-from-env"
+
     def test_create_llm_orcarouter(self):
         """Create LLM with orcarouter preset (OpenAI-compatible gateway)."""
         llm = create_llm("orcarouter", api_key="sk-test")
@@ -643,6 +662,14 @@ class TestProviderPresets:
         assert preset["base_url"] == "https://api.atlascloud.ai/v1"
         assert preset["default_llm"] == "deepseek-ai/deepseek-v4-flash"
         assert preset["default_embedder"] is None
+
+    def test_runcrate_provider(self):
+        """Runcrate has its own preset with an embedder on the same endpoint."""
+        assert "runcrate" in PROVIDER_PRESETS
+        preset = PROVIDER_PRESETS["runcrate"]
+        assert preset["base_url"] == "https://api.runcrate.ai/v1"
+        assert preset["default_llm"] == "deepseek-ai/DeepSeek-V4.1-Flash"
+        assert preset["default_embedder"] == "BAAI/bge-m3"
 
     def test_orcarouter_provider(self):
         """OrcaRouter has its own preset (OpenAI-compatible, named models)."""
